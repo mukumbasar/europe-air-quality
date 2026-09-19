@@ -5,3 +5,4 @@ sqlalchemy
 prophet
 python-dotenv
 pytest
+pyarrow

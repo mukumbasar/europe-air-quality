@@ -1,6 +1,7 @@
 # etl/extract.py
 
 from datetime import datetime, timedelta
+import os
 import pandas as pd
 import requests
 
@@ -50,4 +51,10 @@ def fetch_open_meteo_air_quality(city: str, country: str, lat: float, lon: float
         "sulphur_dioxide",
         "carbon_monoxide",
     ]
-    return df[column_order];
+
+    # Save the DataFrame as a Parquet file in the "data" directory
+    os.makedirs("data", exist_ok=True)
+    file_path = f"data/raw_{city.lower()}_air_quality.parquet"
+    df.to_parquet(file_path, index=False)
+    
+    return df[column_order]
