@@ -16,7 +16,7 @@ CREATE TABLE processed_air_quality (
     carbon_monoxide FLOAT, -- monthly average of Carbon Monoxide readings
     hours_available INT NOT NULL, -- how many hourly readings went into this month's average
     processed_at TIMESTAMP DEFAULT NOW(),
-    UNIQUE (city, date)
+    UNIQUE (city, country, date)
 );
 
 -- forecast_air_quality: One row for every distinct city and month combination.
@@ -32,7 +32,7 @@ CREATE TABLE forecast_air_quality (
     sulphur_dioxide FLOAT, -- monthly average of Sulfur Dioxide readings
     carbon_monoxide FLOAT, -- monthly average of Carbon Monoxide readings
     created_at TIMESTAMP DEFAULT NOW(),
-    UNIQUE (city, date)
+    UNIQUE (city, country, date)
 );
 
 -- pollutant_details: Reference lookup table for UI color coding.
@@ -70,7 +70,7 @@ INSERT INTO pollutant_details (pollutant_name, middle_limit, high_limit) VALUES
 ON CONFLICT (pollutant_name) DO NOTHING;
 
 -- Insert default cities according to the project scope: European capitals.
-INSERT INTO cities (name, country, latitude, longitude) VALUES
+INSERT INTO cities (city, country, latitude, longitude) VALUES
 ('Amsterdam', 'Netherlands', 52.3676, 4.9041),
 ('Andorra la Vella', 'Andorra', 42.5063, 1.5218),
 ('Ankara', 'Türkiye', 39.9334, 32.8597),
