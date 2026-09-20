@@ -2,31 +2,12 @@
 
 -- Data Tables:
 
--- raw_air_quality: One row for every distinct city and timestamp (hour) combination.
--- Note: The raw data is sourced from Open Meteo.
-CREATE TABLE raw_air_quality (
-    id SERIAL PRIMARY KEY,
-    city VARCHAR(100) NOT NULL,
-    country VARCHAR(100) NOT NULL,
-    latitude FLOAT NOT NULL,
-    longitude FLOAT NOT NULL,
-    timestamp TIMESTAMP NOT NULL,
-    pm2_5 FLOAT,
-    pm10 FLOAT,
-    ozone FLOAT,
-    nitrogen_dioxide FLOAT,
-    sulphur_dioxide FLOAT,
-    carbon_monoxide FLOAT,
-    inserted_at TIMESTAMP DEFAULT NOW(),
-    UNIQUE (city, timestamp)
-);
-
 -- processed_air_quality: One row for every distinct city and month combination.
 CREATE TABLE processed_air_quality (
     id SERIAL PRIMARY KEY,
     city VARCHAR(100) NOT NULL,
     country VARCHAR(100) NOT NULL,
-    date DATE NOT NULL,
+    date DATE NOT NULL, -- the first day of the month that the readings were taken
     pm2_5 FLOAT, -- monthly average of PM2.5 readings
     pm10 FLOAT, -- monthly average of PM10 readings
     ozone FLOAT, -- monthly average of Ozone readings
@@ -43,7 +24,7 @@ CREATE TABLE forecast_air_quality (
     id SERIAL PRIMARY KEY,
     city VARCHAR(100) NOT NULL,
     country VARCHAR(100) NOT NULL,
-    date DATE NOT NULL,
+    date DATE NOT NULL, -- the first day of the month for forecasted readings
     pm2_5 FLOAT, -- monthly average of PM2.5 readings
     pm10 FLOAT, -- monthly average of PM10 readings
     ozone FLOAT, -- monthly average of Ozone readings
@@ -62,6 +43,7 @@ CREATE TABLE pollutant_details (
     middle_limit FLOAT NOT NULL,
     high_limit FLOAT NOT NULL,
     unit VARCHAR(20) DEFAULT 'µg/m³'
+    is_active BOOLEAN DEFAULT TRUE,
 );
 
 -- One row for every distinct city in the scope of the project.
@@ -136,4 +118,4 @@ INSERT INTO cities (name, country, latitude, longitude) VALUES
 ('Vilnius', 'Lithuania', 54.6872, 25.2797),
 ('Warsaw', 'Poland', 52.2297, 21.0122),
 ('Zagreb', 'Croatia', 45.8150, 15.9819)
-ON CONFLICT (name) DO NOTHING;
+ON CONFLICT (city) DO NOTHING;
