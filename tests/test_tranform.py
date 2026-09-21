@@ -4,7 +4,7 @@ import os
 
 import pytest
 
-from config import TEST_EXTRACT_PARAMS, PROCESSED_DATA_COLUMN_ORDER, PROCESSED_FILE_PATH
+from config import TEST_EXTRACT_PARAMS, PROCESSED_DATA_COLUMN_ORDER
 from etl import fetch_open_meteo_air_quality, transform_air_quality_data
 
 
@@ -22,10 +22,7 @@ def processed_air_quality_df():
 
     processed_df = transform_air_quality_data(raw_df)
 
-    yield processed_df
-
-    if os.path.exists(PROCESSED_FILE_PATH):
-        os.remove(PROCESSED_FILE_PATH)
+    return processed_df
 
 
 def test_transform_not_empty(processed_air_quality_df):

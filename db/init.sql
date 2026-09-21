@@ -1,6 +1,6 @@
--- db/init.sql
-
--- Data Tables:
+-- ==========================================
+-- CORE DATA TABLES
+-- ==========================================
 
 -- processed_air_quality: One row for every distinct city and month combination.
 CREATE TABLE processed_air_quality (
@@ -35,6 +35,11 @@ CREATE TABLE forecast_air_quality (
     UNIQUE (city, country, date)
 );
 
+
+-- ==========================================
+-- REFERENCE & LOOKUP TABLES
+-- ==========================================
+
 -- pollutant_details: Reference lookup table for UI color coding.
 -- Note: Not using foreign keys was a deliberate choice to avoid unnecessary normalization.
 CREATE TABLE pollutant_details (
@@ -42,22 +47,25 @@ CREATE TABLE pollutant_details (
     pollutant_name VARCHAR(50) NOT NULL UNIQUE,
     middle_limit FLOAT NOT NULL,
     high_limit FLOAT NOT NULL,
-    unit VARCHAR(20) DEFAULT 'µg/m³'
+    unit VARCHAR(20) DEFAULT 'µg/m³',
+    is_active BOOLEAN DEFAULT TRUE
+);
+
+-- cities: One row for every distinct city in the scope of the project.
+CREATE TABLE cities (
+    id SERIAL PRIMARY KEY,
+    city VARCHAR(100) NOT NULL UNIQUE,
+    country VARCHAR(100) NOT NULL,
+    latitude FLOAT NOT NULL,
+    longitude FLOAT NOT NULL,
     is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT NOW()
 );
 
--- One row for every distinct city in the scope of the project.
-CREATE TABLE cities(
-id SERIAL PRIMARY KEY,
-city VARCHAR(100) NOT NULL UNIQUE,
-country VARCHAR(100) NOT NULL,
-latitude FLOAT NOT NULL,
-longitude FLOAT NOT NULL,
-is_active BOOLEAN DEFAULT TRUE,
-created_at TIMESTAMP DEFAULT NOW()
-);
 
--- Data Seeds:
+-- ==========================================
+-- DATA SEEDS
+-- ==========================================
 
 -- Insert default pollutant thresholds for UI color coding.
 INSERT INTO pollutant_details (pollutant_name, middle_limit, high_limit) VALUES

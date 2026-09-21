@@ -5,7 +5,7 @@ import os
 import pytest
 import pandas as pd
 
-from config import RAW_DATA_COLUMN_ORDER, RAW_FILE_PATH, TEST_EXTRACT_PARAMS
+from config import RAW_DATA_COLUMN_ORDER, TEST_EXTRACT_PARAMS
 from etl import fetch_open_meteo_air_quality
 
 
@@ -13,7 +13,7 @@ from etl import fetch_open_meteo_air_quality
 def raw_air_quality_df():
     """Fixture to provide a sample raw air quality DataFrame for testing."""
 
-    df = fetch_open_meteo_air_quality(
+    raw_df = fetch_open_meteo_air_quality(
         cities=TEST_EXTRACT_PARAMS["cities"],
         countries=TEST_EXTRACT_PARAMS["countries"],
         lats=TEST_EXTRACT_PARAMS["lats"],
@@ -21,10 +21,7 @@ def raw_air_quality_df():
         years=1,
     )
 
-    yield df
-
-    if os.path.exists(RAW_FILE_PATH):
-        os.remove(RAW_FILE_PATH)
+    return raw_df
 
 
 def test_extract_not_empty(raw_air_quality_df):
