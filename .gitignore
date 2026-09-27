@@ -1,5 +1,15 @@
+# .gitignore
+
+# Python / Cache
 __pycache__/
 *.pyc
+.pytest_cache/
+venv/
+
+# Environment / Secrets
+.env
+
+# Data / OS / IDE
+*.parquet
 .DS_Store
 .vscode/
-.parquet
