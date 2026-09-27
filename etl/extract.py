@@ -13,8 +13,8 @@ def fetch_open_meteo_air_quality(
     countries: list[str],
     lats: list[float],
     lons: list[float],
-    pollutants: list[str] = None,
     years: int = 10,
+    pollutants: list[str] = None,
 ) -> pd.DataFrame:
     """Fetch raw hourly air quality data from Open Meteo API.
 
