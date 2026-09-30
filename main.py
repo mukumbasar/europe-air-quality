@@ -75,7 +75,7 @@ def run_pipeline():
         logging.info("Pipeline execution finished successfully!")
 
     except Exception as e:
-        logging.error(f"❌ Pipeline failed due to an error: {e}", exc_info=True)
+        logging.error(f"Pipeline failed due to an error: {e}", exc_info=True)
         raise
 
 if __name__ == "__main__":
