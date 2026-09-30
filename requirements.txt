@@ -4,6 +4,7 @@ pandas
 requests
 psycopg2-binary
 sqlalchemy
+streamlit
 prophet
 python-dotenv
 pytest

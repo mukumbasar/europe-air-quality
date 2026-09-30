@@ -3,8 +3,10 @@
 # Python / Cache
 __pycache__/
 *.pyc
+*.pyo
 .pytest_cache/
 venv/
+.venv/
 
 # Environment / Secrets
 .env
@@ -13,3 +15,12 @@ venv/
 *.parquet
 .DS_Store
 .vscode/
+.idea/
+
+# Jupyter / Analysis
+.ipynb_checkpoints/
+
+# Build & Package artifacts
+build/
+dist/
+*.egg-info/

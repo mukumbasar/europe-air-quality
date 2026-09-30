@@ -1,5 +1,3 @@
-# etl/extract.py
-
 from datetime import datetime, timedelta
 
 import pandas as pd
@@ -23,8 +21,8 @@ def fetch_open_meteo_air_quality(
         countries (list[str]): List of country names corresponding to cities.
         lats (list[float]): List of latitude coordinates.
         lons (list[float]): List of longitude coordinates.
-        pollutants (list[str], optional): List of pollutants to fetch. Defaults to DEFAULT_POLLUTANTS.
         years (int, optional): Number of past years of data to fetch. Defaults to 10.
+        pollutants (list[str], optional): List of pollutants to fetch. Defaults to DEFAULT_POLLUTANTS.
 
     Returns:
         pd.DataFrame: DataFrame containing raw hourly air quality data for all cities.
@@ -45,7 +43,7 @@ def fetch_open_meteo_air_quality(
         "timezone": "UTC",
     }
 
-    response = requests.get(url, params=params)
+    response = requests.get(url, params=params, timeout=30)
     response.raise_for_status()
     raw_data = response.json()
 
@@ -64,6 +62,6 @@ def fetch_open_meteo_air_quality(
 
     final_df = pd.concat(all_dfs, ignore_index=True)
 
-    final_df = final_df[RAW_DATA_COLUMN_ORDER]
+    final_df = final_df.reindex(columns=RAW_DATA_COLUMN_ORDER)
 
     return final_df

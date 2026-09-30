@@ -22,4 +22,4 @@
 4. **Start the database:**
    docker compose up -d
 
-# TODO: Fetch cities, countries, lats, and lons from the database.
+# TODO: Finish README.md later.
