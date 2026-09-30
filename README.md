@@ -8,7 +8,7 @@
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/your-username/europe-air-quality.git](https://github.com/your-username/europe-air-quality.git)
+   git clone [https://github.com/mukumbasar/europe-air-quality.git](https://github.com/mukumbasar/europe-air-quality.git)
    cd europe-air-quality
    ```
 
