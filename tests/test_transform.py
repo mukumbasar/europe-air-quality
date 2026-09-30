@@ -1,28 +1,6 @@
 # tests/test_transform.py
 
-import os
-
-import pytest
-
-from config import TEST_EXTRACT_PARAMS, PROCESSED_DATA_COLUMN_ORDER
-from etl import fetch_open_meteo_air_quality, transform_air_quality_data
-
-
-@pytest.fixture(scope="module")
-def processed_air_quality_df():
-    """Fixture to provide a sample processed air quality DataFrame for testing."""
-
-    raw_df = fetch_open_meteo_air_quality(
-        cities=TEST_EXTRACT_PARAMS["cities"],
-        countries=TEST_EXTRACT_PARAMS["countries"],
-        lats=TEST_EXTRACT_PARAMS["lats"],
-        lons=TEST_EXTRACT_PARAMS["lons"],
-        years=1,
-    )
-
-    processed_df = transform_air_quality_data(raw_df)
-
-    return processed_df
+from config import PROCESSED_DATA_COLUMN_ORDER, TEST_EXTRACT_PARAMS
 
 
 def test_transform_not_empty(processed_air_quality_df):
@@ -33,7 +11,9 @@ def test_transform_not_empty(processed_air_quality_df):
 def test_transform_has_expected_columns(processed_air_quality_df):
     """Test if the dataframe has the expected columns."""
     for col in PROCESSED_DATA_COLUMN_ORDER:
-        assert col in processed_air_quality_df.columns, f"Missing column detected: {col}"
+        assert (
+            col in processed_air_quality_df.columns
+        ), f"Missing column detected: {col}"
 
 
 def test_transform_has_five_head_rows(processed_air_quality_df):
