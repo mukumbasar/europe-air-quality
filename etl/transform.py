@@ -7,16 +7,26 @@ import pandas as pd
 from config import PROCESSED_DATA_COLUMN_ORDER
 
 
-def transform_air_quality_data(df: pd.DataFrame) -> pd.DataFrame:
+def transform_air_quality_data(
+    df: pd.DataFrame,
+    covid_start: str = "2020-03-01",
+    covid_end: str = "2020-12-31",
+) -> pd.DataFrame:
     """Transform hourly air quality data into monthly averages.
 
     Args:
         df (pd.DataFrame): DataFrame containing hourly air quality data.
+        covid_start (str, optional): Start date of COVID period to filter out. Defaults to "2020-03-01".
+        covid_end (str, optional): End date of COVID period to filter out. Defaults to "2020-12-31".
 
     Returns:
         pd.DataFrame: DataFrame containing monthly air quality averages,
         available hourly records, and processing time.
     """
+    df = df.copy()
+
+    covid_mask = (df["timestamp"] >= covid_start) & (df["timestamp"] <= covid_end)
+    df = df[~covid_mask]
 
     df["date"] = df["timestamp"].dt.to_period("M").dt.start_time
 
