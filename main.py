@@ -2,8 +2,9 @@
 
 import logging
 
-from config import RAW_FILE_PATH, PROCESSED_FILE_PATH
-from db import get_engine, get_cities, get_active_pollutants
+from config import PROCESSED_FILE_PATH, RAW_FILE_PATH
+from db import get_active_pollutants, get_cities, get_engine
+from db.loader import save_forecast_data, save_processed_data, save_raw_data
 from etl import fetch_open_meteo_air_quality, transform_air_quality_data
 from forecasting import forecast_air_quality
 
@@ -67,9 +68,10 @@ def run_pipeline():
         # ==========================================
         # STEP 4: LOAD
         # ==========================================
-        # TODO: Insert raw_df into the database.
-        # TODO: Insert processed_df into the database.
-        # TODO: Insert forecasted_df into the database.
+        logging.info("Step 4: Loading datasets into the database...")
+        save_raw_data(raw_df, engine)
+        save_processed_data(processed_df, engine)
+        save_forecast_data(forecasted_df, engine)
 
         # ==========================================
         # STEP 5: PIPELINE COMPLETION
