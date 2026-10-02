@@ -1,4 +1,4 @@
-# forecast.py
+# forecasting/forecast.py
 
 import pandas as pd
 from prophet import Prophet
@@ -8,70 +8,57 @@ from config import DEFAULT_POLLUTANTS, FORECAST_DATA_COLUMN_ORDER
 
 def forecast_air_quality(
     df: pd.DataFrame,
-    forecast_months: int = 36,
+    pollutants: list[str] = None,
+    forecast_days: int = 1095,
+    covid_start: str = "2020-03-01",
+    covid_end: str = "2020-12-31",
 ) -> pd.DataFrame:
-    """Create monthly air quality forecasts for each city and pollutant.
+    """Create daily air quality forecasts for each city and pollutant."""
+    pollutants = pollutants or DEFAULT_POLLUTANTS
 
-    Args:
-        df (pd.DataFrame): DataFrame containing historical monthly air
-            quality data.
-        forecast_months (int, optional): Number of future months to
-            forecast. Defaults to 60.
+    covid_holidays = pd.DataFrame({
+        "holiday": "covid_lockdown",
+        "ds": pd.date_range(covid_start, covid_end),
+        "lower_window": 0,
+        "upper_window": 0,
+    })
 
-    Returns:
-        pd.DataFrame: DataFrame containing monthly forecasts for each
-        city and pollutant.
-    """
+    all_city_forecasts = []
 
-    forecast_df = pd.DataFrame()
-
-    cities = df["city"].unique()
-
-    for city in cities:
-
-        city_rows = df["city"] == city
-        city_data = df[city_rows]
+    for city in df["city"].unique():
+        city_data = df[df["city"] == city]
+        country = city_data["country"].iloc[0]
 
         city_forecast = pd.DataFrame()
 
-        for pollutant in DEFAULT_POLLUTANTS:
-
-            model_data = city_data[["date", pollutant]].copy()
-
-            model_data = model_data.rename(
-                columns={
-                    "date": "ds",
-                    pollutant: "y",
-                }
+        for pollutant in pollutants:
+            model_data = (
+                city_data[["date", pollutant]]
+                .rename(columns={"date": "ds", pollutant: "y"})
+                .dropna()
             )
 
             model = Prophet(
+                holidays=covid_holidays,
                 yearly_seasonality=True,
-                weekly_seasonality=False,
+                weekly_seasonality=True,
                 daily_seasonality=False,
             )
-
             model.fit(model_data)
 
             future = model.make_future_dataframe(
-                periods=forecast_months,
-                freq="MS",
-                include_history=False,
+                periods=forecast_days, freq="D", include_history=False
             )
-
             forecast = model.predict(future)
 
-            city_forecast["date"] = forecast["ds"]
+            if "date" not in city_forecast.columns:
+                city_forecast["date"] = forecast["ds"]
+
             city_forecast[pollutant] = forecast["yhat"]
 
         city_forecast["city"] = city
-        city_forecast["country"] = city_data["country"].iloc[0]
+        city_forecast["country"] = country
+        all_city_forecasts.append(city_forecast)
 
-        forecast_df = pd.concat(
-            [forecast_df, city_forecast],
-            ignore_index=True,
-        )
-
-    forecast_df = forecast_df[FORECAST_DATA_COLUMN_ORDER]
-
-    return forecast_df
+    forecast_df = pd.concat(all_city_forecasts, ignore_index=True)
+    return forecast_df[FORECAST_DATA_COLUMN_ORDER]

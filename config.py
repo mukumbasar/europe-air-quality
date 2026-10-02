@@ -66,9 +66,25 @@ DEFAULT_POLLUTANTS = [
     "carbon_monoxide",
 ]
 
+
+# ==========================================
+# TESTING CONFIGURATION
+# ==========================================
+
+TEST_FORECAST_DAYS = 12
+
 TEST_EXTRACT_PARAMS = {
     "cities": ["Berlin", "Paris", "London"],
     "countries": ["Germany", "France", "United Kingdom"],
     "lats": [52.5200, 48.8566, 51.5074],
     "lons": [13.4050, 2.3522, -0.1278],
+}
+
+TEST_MOCK_POLLUTANT_VALUES = {
+    "pm2_5": 12.5,
+    "pm10": 25.0,
+    "ozone": 40.0,
+    "nitrogen_dioxide": 18.0,
+    "sulphur_dioxide": 5.0,
+    "carbon_monoxide": 0.8,
 }

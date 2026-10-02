@@ -1,36 +1,38 @@
+-- db/init.sql
+
 -- ==========================================
 -- CORE DATA TABLES
 -- ==========================================
 
--- processed_air_quality: One row for every distinct city and month combination.
+-- processed_air_quality: One row for every distinct city and day combination.
 CREATE TABLE processed_air_quality (
     id SERIAL PRIMARY KEY,
     city VARCHAR(100) NOT NULL,
     country VARCHAR(100) NOT NULL,
-    date DATE NOT NULL, -- the first day of the month that the readings were taken
-    pm2_5 FLOAT, -- monthly average of PM2.5 readings
-    pm10 FLOAT, -- monthly average of PM10 readings
-    ozone FLOAT, -- monthly average of Ozone readings
-    nitrogen_dioxide FLOAT, -- monthly average of Nitrogen Dioxide readings
-    sulphur_dioxide FLOAT, -- monthly average of Sulfur Dioxide readings
-    carbon_monoxide FLOAT, -- monthly average of Carbon Monoxide readings
-    hours_available INT NOT NULL, -- how many hourly readings went into this month's average
+    date DATE NOT NULL, -- date of the readings (YYYY-MM-DD)
+    pm2_5 FLOAT, -- daily average of PM2.5 readings
+    pm10 FLOAT, -- daily average of PM10 readings
+    ozone FLOAT, -- daily average of Ozone readings
+    nitrogen_dioxide FLOAT, -- daily average of Nitrogen Dioxide readings
+    sulphur_dioxide FLOAT, -- daily average of Sulfur Dioxide readings
+    carbon_monoxide FLOAT, -- daily average of Carbon Monoxide readings
+    hours_available INT NOT NULL, -- how many hourly readings went into this day's average
     processed_at TIMESTAMP DEFAULT NOW(),
     UNIQUE (city, country, date)
 );
 
--- forecast_air_quality: One row for every distinct city and month combination.
+-- forecast_air_quality: One row for every distinct city and forecasted day combination.
 CREATE TABLE forecast_air_quality (
     id SERIAL PRIMARY KEY,
     city VARCHAR(100) NOT NULL,
     country VARCHAR(100) NOT NULL,
-    date DATE NOT NULL, -- the first day of the month for forecasted readings
-    pm2_5 FLOAT, -- monthly average of PM2.5 readings
-    pm10 FLOAT, -- monthly average of PM10 readings
-    ozone FLOAT, -- monthly average of Ozone readings
-    nitrogen_dioxide FLOAT, -- monthly average of Nitrogen Dioxide readings
-    sulphur_dioxide FLOAT, -- monthly average of Sulfur Dioxide readings
-    carbon_monoxide FLOAT, -- monthly average of Carbon Monoxide readings
+    date DATE NOT NULL, -- date for forecasted readings (YYYY-MM-DD)
+    pm2_5 FLOAT, -- daily forecast of PM2.5 readings
+    pm10 FLOAT, -- daily forecast of PM10 readings
+    ozone FLOAT, -- daily forecast of Ozone readings
+    nitrogen_dioxide FLOAT, -- daily forecast of Nitrogen Dioxide readings
+    sulphur_dioxide FLOAT, -- daily forecast of Sulfur Dioxide readings
+    carbon_monoxide FLOAT, -- daily forecast of Carbon Monoxide readings
     created_at TIMESTAMP DEFAULT NOW(),
     UNIQUE (city, country, date)
 );
@@ -41,7 +43,6 @@ CREATE TABLE forecast_air_quality (
 -- ==========================================
 
 -- pollutant_details: Reference lookup table for UI color coding.
--- Note: Not using foreign keys was a deliberate choice to avoid unnecessary normalization.
 CREATE TABLE pollutant_details (
     id SERIAL PRIMARY KEY,
     pollutant_name VARCHAR(50) NOT NULL UNIQUE,
