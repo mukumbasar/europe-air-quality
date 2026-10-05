@@ -2,10 +2,11 @@
 
 pandas
 requests
-psycopg2-binary
+psycopg[binary]
 sqlalchemy
 streamlit
 prophet
 python-dotenv
 pytest
 pyarrow
+plotly

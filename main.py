@@ -35,7 +35,7 @@ def run_pipeline():
             countries=cities_df["country"].tolist(),
             lats=cities_df["latitude"].tolist(),
             lons=cities_df["longitude"].tolist(),
-            years=10,  # 10 years historical scope
+            years=4,  # 4 years historical scope
             pollutants=active_pollutants,
         )
 
@@ -56,11 +56,11 @@ def run_pipeline():
         # ==========================================
         # STEP 3: FORECASTING
         # ==========================================
-        logging.info("Step 3: Generating 1095-day air quality forecasts using Prophet...")
+        logging.info("Step 3: Generating air quality forecasts for the next 7 days using Prophet...")
         forecasted_df = forecast_air_quality(
             processed_df,
             pollutants=active_pollutants,
-            forecast_days=1095,
+            forecast_days=7,
         )
         logging.info("Forecasting completed successfully.")
 

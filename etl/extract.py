@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
 import pandas as pd
 import requests
@@ -11,8 +11,8 @@ def fetch_open_meteo_air_quality(
     countries: list[str],
     lats: list[float],
     lons: list[float],
-    years: int = 10,
-    pollutants: list[str] = None,
+    years: int = 2,
+    pollutants: list[str] | None = None,
 ) -> pd.DataFrame:
     """Fetch raw hourly air quality data from Open Meteo API.
 
@@ -21,8 +21,8 @@ def fetch_open_meteo_air_quality(
         countries (list[str]): List of country names corresponding to cities.
         lats (list[float]): List of latitude coordinates.
         lons (list[float]): List of longitude coordinates.
-        years (int, optional): Number of past years of data to fetch. Defaults to 10.
-        pollutants (list[str], optional): List of pollutants to fetch. Defaults to DEFAULT_POLLUTANTS.
+        years (int, optional): Number of past years of data to fetch. Defaults to 2.
+        pollutants (list[str] | None, optional): List of pollutants to fetch. Defaults to DEFAULT_POLLUTANTS.
 
     Returns:
         pd.DataFrame: DataFrame containing raw hourly air quality data for all cities.
@@ -31,7 +31,9 @@ def fetch_open_meteo_air_quality(
         pollutants = DEFAULT_POLLUTANTS
 
     end_date_obj = datetime.now().date()
-    start_date_obj = end_date_obj - timedelta(days=365 * years)
+    calculated_start = end_date_obj - timedelta(days=365 * years)
+    earliest_allowed = date(2022, 7, 29)
+    start_date_obj = max(calculated_start, earliest_allowed)
 
     url = "https://air-quality-api.open-meteo.com/v1/air-quality"
     params = {
@@ -61,7 +63,6 @@ def fetch_open_meteo_air_quality(
         all_dfs.append(df)
 
     final_df = pd.concat(all_dfs, ignore_index=True)
-
     final_df = final_df.reindex(columns=RAW_DATA_COLUMN_ORDER)
 
     return final_df

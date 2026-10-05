@@ -1,27 +1,21 @@
-# forecasting/forecast.py
-
+import logging
 import pandas as pd
+
 from prophet import Prophet
 
 from config import DEFAULT_POLLUTANTS, FORECAST_DATA_COLUMN_ORDER
 
+# Silence CmdStanPy and Prophet logs
+logging.getLogger("cmdstanpy").setLevel(logging.ERROR)
+logging.getLogger("prophet").setLevel(logging.ERROR)
 
 def forecast_air_quality(
     historical_df: pd.DataFrame,
-    pollutants: list[str] = None,
-    forecast_days: int = 1095,
-    covid_start: str = "2020-03-01",
-    covid_end: str = "2020-12-31",
+    pollutants: list[str] | None = None,
+    forecast_days: int = 7,
 ) -> pd.DataFrame:
     """Create daily air quality forecasts for each city and pollutant."""
     target_pollutants = pollutants or DEFAULT_POLLUTANTS
-
-    covid_lockdown_holidays = pd.DataFrame({
-        "holiday": "covid_lockdown",
-        "ds": pd.date_range(covid_start, covid_end),
-        "lower_window": 0,
-        "upper_window": 0,
-    })
 
     city_forecast_list = []
 
@@ -35,11 +29,10 @@ def forecast_air_quality(
             prophet_train_df = (
                 city_historical_df[["date", pollutant]]
                 .rename(columns={"date": "ds", pollutant: "y"})
-                .dropna() ## Drop rows with null values
+                .dropna()
             )
 
             prophet_model = Prophet(
-                holidays=covid_lockdown_holidays,
                 yearly_seasonality=True,
                 weekly_seasonality=True,
                 daily_seasonality=False,

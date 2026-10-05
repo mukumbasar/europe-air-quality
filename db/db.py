@@ -1,5 +1,6 @@
-## db/db.py
+# db/db.py
 
+from __future__ import annotations
 import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, Engine

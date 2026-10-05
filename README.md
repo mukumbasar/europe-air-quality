@@ -30,14 +30,40 @@
    docker compose up -d
    ```
 
+# Running the Pipeline
+
+Execute the main ETL pipeline script:
+```bash
+python main.py
+```
+
+# Database Inspection (Docker)
+
+To connect to PostgreSQL running in Docker and check your tables:
+
+1. **Access PostgreSQL via `psql`:**
+   ```bash
+   docker exec -it postgres_db psql -U postgres -d europe_air_quality_db
+   ```
+
+2. **Check tables:**
+   ```sql
+   \dt
+   ```
+
+3. **Select first 20 rows from forecasted:**
+   ```sql
+   SELECT * FROM forecasted_air_quality ORDER BY city, date LIMIT 20;
+   ```
+
+4. **Exit database prompt:**
+   ```sql
+   \q
+   ```
+
 # Running Tests
 
 The project uses `pytest` for testing the ETL pipeline and forecasting modules.
-
-Run the entire test suite:
-```bash
-pytest
-```
 
 Run tests with verbose output and live print/log statements enabled:
 ```bash
@@ -61,9 +87,21 @@ Or run tests by keyword matching:
 pytest -k extract
 ```
 
-*(Optional)* Suppress third-party warnings during test execution:
-```bash
-pytest -W ignore
-```
+# Teardown & Cleanup
 
-# TODO: Finish README.md later.
+To stop containers, flush data, or exit your Python environment:
+
+1. **Stop containers:**
+   ```bash
+   docker compose down
+   ```
+
+2. **Flush all database data & remove volumes:**
+   ```bash
+   docker compose down -v
+   ```
+
+3. **Deactivate Python virtual environment:**
+   ```bash
+   deactivate
+   ```
