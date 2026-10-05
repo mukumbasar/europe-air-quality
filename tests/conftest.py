@@ -2,6 +2,7 @@
 
 import pandas as pd
 import pytest
+from sqlalchemy import create_engine, Engine
 
 from config import (
     RAW_DATA_COLUMN_ORDER,
@@ -91,3 +92,15 @@ def forecasted_air_quality(processed_air_quality_df: pd.DataFrame) -> pd.DataFra
     return forecast_air_quality(
         processed_air_quality_df, forecast_days=TEST_FORECAST_DAYS
     )
+
+
+@pytest.fixture
+def db_engine() -> Engine:
+    """Create an in-memory SQLite database engine for testing load operations.
+
+    Returns:
+        Engine: SQLAlchemy Engine connected to an in-memory SQLite instance.
+    """
+    engine = create_engine("sqlite:///:memory:")
+    yield engine
+    engine.dispose()

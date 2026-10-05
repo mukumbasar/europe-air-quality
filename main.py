@@ -4,8 +4,7 @@ import logging
 
 from config import PROCESSED_FILE_PATH, RAW_FILE_PATH
 from db import get_active_pollutants, get_cities, get_engine
-from db.loader import save_forecast_data, save_processed_data, save_raw_data
-from etl import fetch_open_meteo_air_quality, transform_air_quality_data
+from etl import fetch_open_meteo_air_quality, transform_air_quality_data, save_forecast_data, save_processed_data, save_raw_data
 from forecasting import forecast_air_quality
 
 # Configure logging for pipeline tracking
