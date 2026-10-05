@@ -108,3 +108,11 @@ To stop containers, flush data, or exit your Python environment:
    ```bash
    deactivate
    ```
+
+
+# Frequently Asked Questions (FAQ)
+
+### Why Meta Prophet?
+Prophet handles seasonality, missing data, and outliers natively out of the box; avoiding manual parameter tuning, complex feature engineering or heavy compute overhead.
+
+**Alternatives considered:** ARIMA/SARIMA, XGBoost/LightGBM, LSTM.

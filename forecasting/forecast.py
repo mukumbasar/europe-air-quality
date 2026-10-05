@@ -9,12 +9,22 @@ from config import DEFAULT_POLLUTANTS, FORECAST_DATA_COLUMN_ORDER
 logging.getLogger("cmdstanpy").setLevel(logging.ERROR)
 logging.getLogger("prophet").setLevel(logging.ERROR)
 
+
 def forecast_air_quality(
     historical_df: pd.DataFrame,
     pollutants: list[str] | None = None,
     forecast_days: int = 7,
 ) -> pd.DataFrame:
-    """Create daily air quality forecasts for each city and pollutant."""
+    """Create daily air quality forecasts for each city and pollutant.
+
+    Args:
+        historical_df (pd.DataFrame): DataFrame containing historical daily air quality data.
+        pollutants (list[str] | None, optional): List of pollutants to forecast. Defaults to DEFAULT_POLLUTANTS.
+        forecast_days (int, optional): Number of future days to forecast. Defaults to 7.
+
+    Returns:
+        pd.DataFrame: DataFrame containing forecasted air quality values for all cities and pollutants.
+    """
     target_pollutants = pollutants or DEFAULT_POLLUTANTS
 
     city_forecast_list = []
@@ -47,7 +57,7 @@ def forecast_air_quality(
             if "date" not in city_forecast_df.columns:
                 city_forecast_df["date"] = pollutant_forecast["ds"]
 
-            city_forecast_df[pollutant] = pollutant_forecast["yhat"]
+            city_forecast_df[pollutant] = pollutant_forecast["yhat"].clip(lower=0) # Make sure no negative forecasts
 
         city_forecast_df["city"] = city
         city_forecast_df["country"] = country_name
