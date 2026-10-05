@@ -1,12 +1,12 @@
 # requirements.txt
 
-pandas
-requests
-psycopg[binary]
-sqlalchemy
-streamlit
-prophet
-python-dotenv
-pytest
-pyarrow
-plotly
+pandas # Data manipulation and tabular analysis
+requests # HTTP client for fetching API data
+psycopg[binary] # PostgreSQL database driver
+sqlalchemy # SQL toolkit and ORM for database connections
+streamlit # Web framework for data dashboards and UI
+python-dotenv # Loads environment variables from .env files
+pytest # Unit and integration testing framework
+pyarrow # Columnar memory format and fast Parquet file support
+prophet # Time-series forecasting library
+plotly # Interactive plotting backend for Prophet forecasts
