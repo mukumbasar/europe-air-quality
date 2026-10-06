@@ -3,11 +3,12 @@
 import streamlit as st
 
 from dashboard import (
+    get_cached_map_data,
+    get_cached_thresholds,
     render_map,
     render_pollutant_info,
     render_pollutant_selector,
 )
-from db import get_engine, get_latest_map_data, get_pollutant_thresholds
 
 st.set_page_config(
     page_title="European Air Quality Monitor",
@@ -18,10 +19,8 @@ st.set_page_config(
 def main():
     st.title("European Air Quality Monitor")
 
-    engine = get_engine()
-
-    # Fetch active thresholds from DB
-    thresholds_df = get_pollutant_thresholds(engine)
+    # Fetch active thresholds from cache
+    thresholds_df = get_cached_thresholds()
 
     # Side-by-side layout using columns
     col_selector, col_info = st.columns([2, 1])
@@ -37,8 +36,8 @@ def main():
     if not selected_pollutant:
         return
 
-    # Fetch latest readings per city from DB
-    map_data = get_latest_map_data(engine, selected_pollutant)
+    # Fetch latest readings per city from cache
+    map_data = get_cached_map_data(selected_pollutant)
 
     # Render map component
     render_map(map_data, selected_pollutant, mid_limit, high_limit)

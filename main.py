@@ -49,18 +49,16 @@ def run_pipeline():
         logging.info("Step 2: Transforming and aggregating data into daily averages...")
         processed_df = transform_air_quality_data(raw_df)
 
-        # Save processed_df in /data
-        processed_df.to_parquet(PROCESSED_FILE_PATH, index=False)
         logging.info(f"Processed data successfully saved to {PROCESSED_FILE_PATH}")
 
         # ==========================================
         # STEP 3: FORECASTING
         # ==========================================
-        logging.info("Step 3: Generating air quality forecasts for the next 7 days using Prophet...")
+        logging.info("Step 3: Generating air quality forecasts for the next 14 days using Prophet...")
         forecasted_df = forecast_air_quality(
             processed_df,
             pollutants=active_pollutants,
-            forecast_days=7,
+            forecast_days=14,
         )
         logging.info("Forecasting completed successfully.")
 
@@ -68,7 +66,6 @@ def run_pipeline():
         # STEP 4: LOAD
         # ==========================================
         logging.info("Step 4: Loading datasets into the database...")
-        save_raw_data(raw_df, engine)
         save_processed_data(processed_df, engine)
         save_forecast_data(forecasted_df, engine)
 

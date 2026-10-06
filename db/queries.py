@@ -1,6 +1,7 @@
 # db/queries.py
 
 import pandas as pd
+import streamlit as st 
 from sqlalchemy import Engine, text
 
 # ==========================================
@@ -75,6 +76,11 @@ def get_forecasted_air_quality(
 
     query = "SELECT * FROM forecasted_air_quality ORDER BY date ASC;"
     return pd.read_sql(query, engine)
+
+
+# ==========================================
+# UI QUERIES
+# ==========================================
 
 
 # ==========================================
