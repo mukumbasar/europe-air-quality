@@ -80,7 +80,7 @@ def render_map(
         custom_data=["status", "country", "value"],
         color="status",
         color_discrete_map=color_map,
-        zoom=4.0,
+        zoom=3.2,
         center={"lat": 48.5, "lon": 15.0},
         map_style="carto-darkmatter",
         title=f"Current {formatted_pollutant} Levels Across Europe{date_str}",
@@ -107,7 +107,7 @@ def render_map(
     )
 
     fig.update_layout(
-        height=1150,
+        height=1000,
         margin={"r": 0, "t": 70, "l": 0, "b": 0},
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
