@@ -20,9 +20,7 @@ def main():
     thresholds_df = get_pollutant_thresholds(engine)
 
     # Render selector component
-    selected_pollutant, mid_limit, high_limit = render_pollutant_selector(
-        thresholds_df
-    )
+    selected_pollutant, mid_limit, high_limit = render_pollutant_selector(thresholds_df)
 
     if not selected_pollutant:
         return

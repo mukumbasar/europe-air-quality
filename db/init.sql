@@ -75,7 +75,7 @@ INSERT INTO pollutant_details (pollutant_name, middle_limit, high_limit) VALUES
 ('ozone', 54.0, 70.0),
 ('nitrogen_dioxide', 53.0, 100.0),
 ('sulphur_dioxide', 35.0, 75.0),
-('carbon_monoxide', 4.4, 9.4)
+('carbon_monoxide', 4400.0, 9400.0)
 ON CONFLICT (pollutant_name) DO NOTHING;
 
 -- Insert default cities according to the project scope: European capitals.

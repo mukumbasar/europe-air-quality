@@ -43,9 +43,14 @@ def render_pollutant_selector(thresholds_df: pd.DataFrame) -> tuple[str, float, 
     high_limit = float(pollutant_row["high_limit"])
     formatted_name = format_pollutant_name(selected_pollutant)
 
-    st.caption(
-        f"Thresholds for **{formatted_name}**: "
-        f"Low Risk &lt; `{mid_limit}` | Moderate Risk &lt; `{high_limit}` | `{high_limit}` &nbsp;&lt;&nbsp; High Risk"
+    st.markdown(
+        f"<span style='font-size: 0.8em; color: #808495;'>"
+        f"Thresholds for <b>{formatted_name}</b>: "
+        f"<span style='color: #00E676; font-weight: 600;'>Low Risk</span> &lt; {mid_limit} | "
+        f"<span style='color: #FFB300; font-weight: 600;'>Moderate Risk</span> &lt; {high_limit} | "
+        f"{high_limit} &nbsp;&lt;&nbsp; <span style='color: #FF5252; font-weight: 600;'>High Risk</span>"
+        f"</span>",
+        unsafe_allow_html=True,
     )
 
     return selected_pollutant, mid_limit, high_limit

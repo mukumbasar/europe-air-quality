@@ -5,6 +5,21 @@ import plotly.express as px
 import streamlit as st
 
 
+def format_pollutant_name(name: str) -> str:
+    mapping = {
+        "pm2_5": "PM2.5",
+        "pm10": "PM10",
+        "ozone": "Ozone",
+        "nitrogen_dioxide": "Nitrogen Dioxide",
+        "sulphur_dioxide": "Sulphur Dioxide",
+        "carbon_monoxide": "Carbon Monoxide",
+    }
+    key = name.lower().strip()
+    if key in mapping:
+        return mapping[key]
+    return name.replace("_", " ").title()
+
+
 def categorize_air_quality(
     value: float, middle_limit: float, high_limit: float
 ) -> str:
@@ -31,12 +46,12 @@ def render_map(
         args=(middle_limit, high_limit),
     )
 
-    formatted_pollutant = pollutant_name.replace("_", ".").upper()
+    formatted_pollutant = format_pollutant_name(pollutant_name)
 
     date_str = ""
     if "date" in df.columns and not df["date"].empty:
         raw_date = pd.to_datetime(df["date"].iloc[0])
-        date_str = f" ({raw_date.strftime('%Y-%m-%d')})"
+        date_str = f" ({raw_date.strftime('%d-%m-%Y')})"
 
     color_map = {
         "Low Risk": "#00E676",
