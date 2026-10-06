@@ -3,6 +3,12 @@
 import pandas as pd
 from sqlalchemy import Engine, text
 
+# ==========================================
+# ETL & FORECASTING PIPELINE QUERIES
+# ==========================================
+
+# TODO: Consider moving these queries to seperate modular files.
+
 
 def get_active_pollutants(engine: Engine) -> list[str]:
     """Fetch active pollutant names from the database.
@@ -68,4 +74,48 @@ def get_forecasted_air_quality(
         return pd.read_sql(query, engine, params={"city": city})
 
     query = "SELECT * FROM forecasted_air_quality ORDER BY date ASC;"
+    return pd.read_sql(query, engine)
+
+
+# ==========================================
+# UI QUERIES
+# ==========================================
+
+
+def get_pollutant_thresholds(engine: Engine) -> pd.DataFrame:
+    """Fetch pollutant limit thresholds for map color coding.
+
+    Args:
+        engine (Engine): SQLAlchemy database engine connection.
+
+    Returns:
+        pd.DataFrame: DataFrame with pollutant names, middle limits, and high limits.
+    """
+    query = "SELECT pollutant_name, middle_limit, high_limit FROM pollutant_details WHERE is_active = TRUE;"
+    return pd.read_sql(query, engine)
+
+
+def get_latest_map_data(engine: Engine, pollutant: str) -> pd.DataFrame:
+    """Fetch the latest recorded reading for every city for a specific pollutant column.
+
+    Args:
+        engine (Engine): SQLAlchemy database engine connection.
+        pollutant (str): The pollutant column name to select (e.g., 'pm2_5').
+
+    Returns:
+        pd.DataFrame: City coordinates and latest pollutant reading as 'value'.
+    """
+    query = text(f"""
+        SELECT DISTINCT ON (c.city)
+            c.city,
+            c.country,
+            c.latitude,
+            c.longitude,
+            p.date,
+            p.{pollutant} AS value
+        FROM processed_air_quality p
+        JOIN cities c ON p.city = c.city
+        WHERE p.{pollutant} IS NOT NULL
+        ORDER BY c.city, p.date DESC;
+    """)
     return pd.read_sql(query, engine)

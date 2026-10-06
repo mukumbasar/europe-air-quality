@@ -49,7 +49,7 @@ def fetch_open_meteo_air_quality(
     response.raise_for_status()
     raw_data = response.json()
 
-    raw_data_list = raw_data if isinstance(raw_data, list) else [raw_data]
+    raw_data_list = raw_data if isinstance(raw_data, list) else [raw_data] # Make sure raw_data is a list
     all_dfs = []
 
     for i in range(len(cities)):

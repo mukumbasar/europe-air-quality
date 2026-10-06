@@ -9,4 +9,4 @@ python-dotenv # Loads environment variables from .env files
 pytest # Unit and integration testing framework
 pyarrow # Columnar memory format and fast Parquet file support
 prophet # Time-series forecasting library
-plotly # Interactive plotting backend for Prophet forecasts
+plotly # Interactive plotting backend for Prophet forecasts and Streamlit visualizations

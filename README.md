@@ -33,9 +33,35 @@
    docker compose up -d
    ```
 
+# Running Tests
+
+The project uses `pytest` for testing the ETL pipeline and forecasting modules.
+
+Run tests with verbose output and live print/log statements enabled:
+```bash
+pytest -v -s
+```
+
+Run specific pipeline tests individually:
+```bash
+# Run extract pipeline tests
+pytest tests/test_extract.py
+
+# Run transform pipeline tests
+pytest tests/test_transform.py
+
+# Run forecast pipeline tests
+pytest tests/test_forecast.py
+```
+
+Or run tests by keyword matching:
+```bash
+pytest -k extract
+```
+
 # Running the Pipeline
 
-Execute the main ETL pipeline script:
+Execute the ETL and forecasting pipeline script:
 ```bash
 python main.py
 ```
@@ -64,31 +90,13 @@ To connect to PostgreSQL running in Docker and check your tables:
    \q
    ```
 
-# Running Tests
+# Running the Dashboard
 
-The project uses `pytest` for testing the ETL pipeline and forecasting modules.
-
-Run tests with verbose output and live print/log statements enabled:
+Launch the Streamlit web application:
 ```bash
-pytest -v -s
+streamlit run app.py
 ```
 
-Run specific pipeline tests individually:
-```bash
-# Run extract pipeline tests
-pytest tests/test_extract.py
-
-# Run transform pipeline tests
-pytest tests/test_transform.py
-
-# Run forecast pipeline tests
-pytest tests/test_forecast.py
-```
-
-Or run tests by keyword matching:
-```bash
-pytest -k extract
-```
 
 # Teardown & Cleanup
 
