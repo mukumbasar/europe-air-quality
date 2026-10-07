@@ -127,7 +127,7 @@ def get_forecast_air_quality(engine: Engine, city: str, pollutant: str) -> pd.Da
 
     Args:
         engine (Engine): SQLAlchemy database engine connection.
-        city_name (str): The city name to filter by.
+        city (str): The city name to filter by.
         pollutant (str): The pollutant column name to select.
 
     Returns:
@@ -150,18 +150,18 @@ def get_processed_air_quality(engine: Engine, city: str, pollutant: str) -> pd.D
 
     Args:
         engine (Engine): SQLAlchemy database engine connection.
-        city_name (str): The city name to filter by.
+        city (str): The city name to filter by.
         pollutant (str): The pollutant column name to select.
 
     Returns:
-        pd.DataFrame: City, country, date, and forecast pollutant readings for the specified city.
+        pd.DataFrame: City, country, date, and processed pollutant readings for the specified city.
     """
     query = text(f"""
         SELECT city,
             country,
             date,
             {pollutant} as value
-        FROM forecast_air_quality
+        FROM processed_air_quality
         WHERE city = :city
         ORDER BY date ASC;
     """)

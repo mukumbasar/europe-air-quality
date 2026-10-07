@@ -103,8 +103,6 @@ INSERT INTO cities (city, country, latitude, longitude) VALUES
 ('Madrid', 'Spain', 40.4168, -3.7038),
 ('Minsk', 'Belarus', 53.9006, 27.5590),
 ('Monaco', 'Monaco', 43.7384, 7.4246),
-('Moscow', 'Russia', 55.7558, 37.6173),
-('Nicosia', 'Cyprus', 35.1856, 33.3823),
 ('Oslo', 'Norway', 59.9139, 10.7522),
 ('Paris', 'France', 48.8566, 2.3522),
 ('Podgorica', 'Montenegro', 42.4304, 19.2594),

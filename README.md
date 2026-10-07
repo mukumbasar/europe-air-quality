@@ -70,22 +70,24 @@ python main.py
 
 To connect to PostgreSQL running in Docker and check your tables:
 
-1. **Access PostgreSQL via `psql`:**
-   ```bash
-   docker exec -it postgres_db psql -U postgres -d europe_air_quality_db
-   ```
+1. **Access PostgreSQL database through Docker container:**
+docker exec -it postgres_db psql -U postgres -d europe_air_quality_db
 
-2. **Check tables:**
+2. **Select forecast data:**
+   ```bash
+SELECT * FROM forecast_air_quality ORDER BY city, date LIMIT 20;   ```
+
+3. **Check tables:**
    ```sql
    \dt
    ```
 
-3. **Select first 20 rows from forecasted:**
+4. **Select first 20 rows from forecasted:**
    ```sql
-   SELECT * FROM forecasted_air_quality ORDER BY city, date LIMIT 20;
+   SELECT * FROM forecast_air_quality ORDER BY city, date LIMIT 20;
    ```
 
-4. **Exit database prompt:**
+5. **Exit database prompt:**
    ```sql
    \q
    ```

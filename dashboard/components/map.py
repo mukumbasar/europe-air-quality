@@ -4,32 +4,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-
-def format_pollutant_name(name: str) -> str:
-    mapping = {
-        "pm2_5": "PM2.5",
-        "pm10": "PM10",
-        "ozone": "Ozone",
-        "nitrogen_dioxide": "Nitrogen Dioxide",
-        "sulphur_dioxide": "Sulphur Dioxide",
-        "carbon_monoxide": "Carbon Monoxide",
-    }
-    key = name.lower().strip()
-    if key in mapping:
-        return mapping[key]
-    return name.replace("_", " ").title()
-
-
-def categorize_air_quality(
-    value: float, middle_limit: float, high_limit: float
-) -> str:
-    if value < middle_limit:
-        return "Low Risk"
-    elif value < high_limit:
-        return "Moderate Risk"
-    else:
-        return "High Risk"
-
+from dashboard.helpers import categorize_air_quality, format_pollutant_name
 
 def render_map(
     df: pd.DataFrame,
@@ -77,7 +52,7 @@ def render_map(
         lat="latitude",
         lon="longitude",
         hover_name="city",
-        custom_data=["status", "country", "value"],
+        custom_data=["status", "country", "value", "city"],
         color="status",
         color_discrete_map=color_map,
         zoom=3.2,
@@ -90,6 +65,11 @@ def render_map(
         marker=dict(
             size=14,
             opacity=0.9,
+        ),
+        unselected=dict(
+            marker=dict(
+                opacity=0.9
+            )
         ),
         hovertemplate=(
             "<b>%{hovertext}</b><br><br>"
@@ -125,4 +105,12 @@ def render_map(
         font=dict(color="#FFFFFF"),
     )
 
-    st.plotly_chart(fig, use_container_width=True)
+    # Add event listener for map clicks to trigger modal popup
+    event = st.plotly_chart(
+        fig, 
+        on_select="rerun", 
+        key="map_selection", 
+        use_container_width=True
+    )
+    
+    return event

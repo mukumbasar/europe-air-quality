@@ -36,7 +36,7 @@ def save_processed_data(
 
 
 def save_forecast_data(
-    df: pd.DataFrame, engine: Engine, table_name: str = "forecasted_air_quality"
+    df: pd.DataFrame, engine: Engine, table_name: str = "forecast_air_quality"
 ) -> None:
     """Save forecasted air quality predictions to the database.
 
