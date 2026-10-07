@@ -15,7 +15,7 @@ logging.basicConfig(
 )
 
 
-def run_pipeline():
+def main():
     """Run the pipeline."""
 
     logging.info("Step 0: Starting Air Quality ETL & Forecasting Pipeline...")
@@ -80,4 +80,4 @@ def run_pipeline():
 
 
 if __name__ == "__main__":
-    run_pipeline()
+    main()
