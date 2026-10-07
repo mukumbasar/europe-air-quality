@@ -83,11 +83,6 @@ def get_forecasted_air_quality(
 # ==========================================
 
 
-# ==========================================
-# UI QUERIES
-# ==========================================
-
-
 def get_pollutant_thresholds(engine: Engine) -> pd.DataFrame:
     """Fetch pollutant limit thresholds for map color coding.
 
@@ -109,7 +104,7 @@ def get_latest_map_data(engine: Engine, pollutant: str) -> pd.DataFrame:
         pollutant (str): The pollutant column name to select (e.g., 'pm2_5').
 
     Returns:
-        pd.DataFrame: City coordinates and latest pollutant reading as 'value'.
+        pd.DataFrame: City coordinates, country, date and latest processed pollutant reading according to the variable pollutant input.
     """
     query = text(f"""
         SELECT DISTINCT ON (c.city)
@@ -125,3 +120,49 @@ def get_latest_map_data(engine: Engine, pollutant: str) -> pd.DataFrame:
         ORDER BY c.city, p.date DESC;
     """)
     return pd.read_sql(query, engine)
+
+
+def get_forecast_air_quality(engine: Engine, city: str, pollutant: str) -> pd.DataFrame:
+    """Fetch forecast air quality data for a specific city.
+
+    Args:
+        engine (Engine): SQLAlchemy database engine connection.
+        city_name (str): The city name to filter by.
+        pollutant (str): The pollutant column name to select.
+
+    Returns:
+        pd.DataFrame: City, country, date, and forecast pollutant readings for the specified city.
+    """
+    query = text(f"""
+        SELECT city,
+            country,
+            date,
+            {pollutant} as value
+        FROM forecast_air_quality
+        WHERE city = :city
+        ORDER BY date ASC;
+    """)
+    return pd.read_sql(query, engine, params={"city": city})
+
+
+def get_processed_air_quality(engine: Engine, city: str, pollutant: str) -> pd.DataFrame:
+    """Fetch processed air quality data for a specific city.
+
+    Args:
+        engine (Engine): SQLAlchemy database engine connection.
+        city_name (str): The city name to filter by.
+        pollutant (str): The pollutant column name to select.
+
+    Returns:
+        pd.DataFrame: City, country, date, and forecast pollutant readings for the specified city.
+    """
+    query = text(f"""
+        SELECT city,
+            country,
+            date,
+            {pollutant} as value
+        FROM forecast_air_quality
+        WHERE city = :city
+        ORDER BY date ASC;
+    """)
+    return pd.read_sql(query, engine, params={"city": city})
