@@ -15,6 +15,7 @@ from etl.load import save_forecast_data, save_processed_data, save_raw_data
 # TESTS FOR save_raw_data
 # ==========================================
 
+
 def test_save_raw_data_creates_table_and_not_empty(raw_air_quality_df, db_engine):
     """Test if save_raw_data writes a non-empty table to the database."""
     table_name = "test_raw_air_quality"
@@ -50,6 +51,7 @@ def test_save_raw_data_has_expected_columns(raw_air_quality_df, db_engine):
 # TESTS FOR save_processed_data
 # ==========================================
 
+
 def test_save_processed_data_creates_table_and_not_empty(processed_air_quality_df, db_engine):
     """Test if save_processed_data writes a non-empty table to the database."""
     table_name = "test_processed_air_quality"
@@ -84,6 +86,7 @@ def test_save_processed_data_has_expected_columns(processed_air_quality_df, db_e
 # ==========================================
 # TESTS FOR save_forecast_data
 # ==========================================
+
 
 def test_save_forecast_data_creates_table_and_not_empty(forecasted_air_quality, db_engine):
     """Test if save_forecast_data writes a non-empty table to the database."""

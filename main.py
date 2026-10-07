@@ -24,6 +24,7 @@ def main():
         # ==========================================
         # STEP 1: EXTRACT
         # ==========================================
+        
         engine = get_engine()
 
         cities_df = get_cities(engine)
@@ -46,6 +47,7 @@ def main():
         # ==========================================
         # STEP 2: TRANSFORM
         # ==========================================
+
         logging.info("Step 2: Transforming and aggregating data into daily averages...")
         processed_df = transform_air_quality_data(raw_df)
 
@@ -54,6 +56,7 @@ def main():
         # ==========================================
         # STEP 3: FORECASTING
         # ==========================================
+
         logging.info("Step 3: Generating air quality forecasts for the next 14 days using Prophet...")
         forecasted_df = forecast_air_quality(
             processed_df,
@@ -65,6 +68,7 @@ def main():
         # ==========================================
         # STEP 4: LOAD
         # ==========================================
+
         logging.info("Step 4: Loading datasets into the database...")
         save_processed_data(processed_df, engine)
         save_forecast_data(forecasted_df, engine)
@@ -72,6 +76,7 @@ def main():
         # ==========================================
         # STEP 5: PIPELINE COMPLETION
         # ==========================================
+
         logging.info("Pipeline execution finished successfully!")
 
     except Exception as e:

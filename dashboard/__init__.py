@@ -10,5 +10,7 @@ __all__ = [
     "render_pollutant_selector",
     "render_pollutant_info",
     "get_cached_map_data",
-    "get_cached_thresholds"
+    "get_cached_thresholds",
+    "get_cached_processed_data"
+    "get_processed_air_quality",
 ]
