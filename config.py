@@ -97,5 +97,16 @@ TEST_MOCK_POLLUTANT_VALUES = {
 COLOR_MAP = {
     "Low Risk": "#00E676",
     "Moderate Risk": "#FFB300",
-    "High Risk": "#FF5252",
+    "High Risk": "#FF5252"
 }
+
+BG_COLOR_PRIMARY = "#252E3B"
+BG_COLOR_SECONDARY = "#18191C"
+
+APP_BACKGROUND = f"radial-gradient(circle at 10% 40%, {BG_COLOR_PRIMARY} 0%, {BG_COLOR_SECONDARY} 50%)"
+
+APP_TEXT_COLOR = "#F0F6FC"
+TITLE_COLOR = "#FFFFFF"
+
+FONT_IMPORT_URL = "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
+TITLE_FONT_FAMILY = "'Space Grotesk', sans-serif"

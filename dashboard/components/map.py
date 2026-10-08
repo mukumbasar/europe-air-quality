@@ -32,8 +32,8 @@ def render_map(
         """
         <style>
         .block-container {
-            padding-top: 2.0rem !important;
-            padding-bottom: 1.5rem !important;
+            padding-top: 1.0rem !important;
+            padding-bottom: 1.0rem !important;
             max-width: 98% !important;
         }
         </style>

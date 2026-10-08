@@ -5,19 +5,18 @@ import streamlit as st
 from dashboard import (
     get_cached_map_data,
     get_cached_thresholds,
+    render_city_modal,
+    render_main_page_layout,
     render_map,
+    render_monitor_info,
     render_pollutant_info,
     render_pollutant_selector,
 )
-from dashboard.components.monitor_info import render_monitor_info
-from dashboard.components.modal import render_city_modal
 
-# Configure Streamlit page settings
-st.set_page_config(
-    page_title="European Air Quality Monitor",
-    layout="wide",
-)
-st.title("European Air Quality Monitor")
+# Configure page settings and apply styles from main_page
+render_main_page_layout()
+
+st.title("Europe Air Quality")
 
 def main():
     # Fetch active thresholds from cache for selector and map color coding 
