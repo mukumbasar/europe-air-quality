@@ -7,9 +7,11 @@ from dashboard.cache_service import get_cached_forecast_data, get_cached_process
 from dashboard.helpers import format_pollutant_name
 
 
-@st.dialog("City Air Quality Details", width="large")
+@st.dialog(title="Details", width="large")
 def render_city_modal(city: str, pollutant: str):
     """Renders a modal popup containing historical and forecast charts for a selected city."""
+    st.header(f"{city}")
+    
     # Format the pollutant name using the helper function
     formatted_pollutant = format_pollutant_name(pollutant)
     st.caption(f"Analyzing pollutant metric: {formatted_pollutant}")

@@ -3,7 +3,7 @@
 import pandas as pd
 import plotly.express as px
 import streamlit as st
-
+from config import COLOR_MAP
 from dashboard.helpers import categorize_air_quality, format_pollutant_name
 
 def render_map(
@@ -14,7 +14,7 @@ def render_map(
 ):
     if df.empty:
         st.warning(f"No recent data available for {pollutant_name}.")
-        return
+        return None
 
     df["status"] = df["value"].apply(
         categorize_air_quality,
@@ -27,12 +27,6 @@ def render_map(
     if "date" in df.columns and not df["date"].empty:
         raw_date = pd.to_datetime(df["date"].iloc[0])
         date_str = f" ({raw_date.strftime('%d-%m-%Y')})"
-
-    color_map = {
-        "Low Risk": "#00E676",
-        "Moderate Risk": "#FFB300",
-        "High Risk": "#FF5252",
-    }
 
     st.markdown(
         """
@@ -54,7 +48,7 @@ def render_map(
         hover_name="city",
         custom_data=["status", "country", "value", "city"],
         color="status",
-        color_discrete_map=color_map,
+        color_discrete_map=COLOR_MAP,
         zoom=3.2,
         center={"lat": 48.5, "lon": 15.0},
         map_style="carto-darkmatter",
@@ -62,15 +56,8 @@ def render_map(
     )
 
     fig.update_traces(
-        marker=dict(
-            size=14,
-            opacity=0.9,
-        ),
-        unselected=dict(
-            marker=dict(
-                opacity=0.9
-            )
-        ),
+        marker=dict(size=14, opacity=0.9),
+        unselected=dict(marker=dict(opacity=0.9)),
         hovertemplate=(
             "<b>%{hovertext}</b><br><br>"
             "<b>Status:</b> %{customdata[0]}<br>"
@@ -105,7 +92,6 @@ def render_map(
         font=dict(color="#FFFFFF"),
     )
 
-    # Add event listener for map clicks to trigger modal popup
     event = st.plotly_chart(
         fig, 
         on_select="rerun", 

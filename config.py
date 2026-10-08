@@ -88,3 +88,14 @@ TEST_MOCK_POLLUTANT_VALUES = {
     "sulphur_dioxide": 5.0,
     "carbon_monoxide": 0.8,
 }
+
+
+# ==========================================
+# UI & VISUALIZATION CONFIGURATIONS
+# ==========================================
+
+COLOR_MAP = {
+    "Low Risk": "#00E676",
+    "Moderate Risk": "#FFB300",
+    "High Risk": "#FF5252",
+}

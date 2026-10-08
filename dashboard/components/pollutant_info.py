@@ -1,11 +1,9 @@
-# dashboard/components/info_box.py
+# dashboard/components/pollutant_info.py
 
 import streamlit as st
 
-
 def render_pollutant_info() -> None:
-    """Renders an informational sidebar or box explaining the pollutants."""
-    st.markdown("### Pollutant Guide")
+    st.markdown("### Pollutant Guide:")
     st.markdown(
         """
         * **PM2.5:** Fine particulate matter (under 2.5 micrometers) from dust, smoke, and combustion.

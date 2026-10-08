@@ -1,5 +1,16 @@
-# TO DO: ADD AN INSTRUCTION AS TO WHAT THIS PROJECT AIMS FOR AND HOW IT AIMS FOR IT.
+A mono-repo city-based air quality monitoring and forecasting dashboard based on Open-Meteo data, which utilizes Streamlit for visualization.
 
+# Pipeline:
+- Extracts 4-year hourly historical air quality data from Open-Meteo API for each city in the scope, going back from the point of execution.
+- Saves raw air quality data in parquet format locally. 
+- Transforms hourly data to daily data in accordance with the project objective, risk assessment paradigm of WHO and to reduce potential forecasting noise.
+- Forecasts 14-day air quality data on a daily basis for each city in the scope using Prophet by Meta.
+- Loads both processed air quality and forecast air quality data into PostgreSQL database executed in Docker on a daily basis for each city in the scope.
+- Visualizes the output on a one page Streamlit web application.
+
+> **Disclaimer:** This project is a portfolio piece and provided as is. Data is sourced from Open-Meteo and forecasts are not guaranteed.
+
+#
 
 # Prerequisites
 
@@ -24,8 +35,7 @@
 
 3. **Create environment file from template:**
    ```bash
-   cp .env.example .env
-   # Windows: copy .env.example .env
+   cp .env.example .env # Windows: copy .env.example .env
    ```
 
 4. **Start the database:**
@@ -71,23 +81,21 @@ python main.py
 To connect to PostgreSQL running in Docker and check your tables:
 
 1. **Access PostgreSQL database through Docker container:**
-docker exec -it postgres_db psql -U postgres -d europe_air_quality_db
-
-2. **Select forecast data:**
    ```bash
-SELECT * FROM forecast_air_quality ORDER BY city, date LIMIT 20;   ```
+   docker exec -it postgres_db psql -U postgres -d europe_air_quality_db
+   ```
 
-3. **Check tables:**
+2. **Check tables:**
    ```sql
    \dt
    ```
 
-4. **Select first 20 rows from forecasted:**
+3. **Select first 20 rows from forecasted:**
    ```sql
    SELECT * FROM forecast_air_quality ORDER BY city, date LIMIT 20;
    ```
 
-5. **Exit database prompt:**
+4. **Exit database prompt:**
    ```sql
    \q
    ```

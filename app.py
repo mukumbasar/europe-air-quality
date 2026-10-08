@@ -9,6 +9,7 @@ from dashboard import (
     render_pollutant_info,
     render_pollutant_selector,
 )
+from dashboard.components.monitor_info import render_monitor_info
 from dashboard.components.modal import render_city_modal
 
 # Configure Streamlit page settings
@@ -26,12 +27,16 @@ def main():
     # SELECTOR & INFO BOX
     # ==========================================
     
-    # Create a two columns layout: one for pollutant selector, one for info box
-    col_selector, col_info = st.columns([2, 1])
+    col_selector, _, col_info = st.columns([0.5, 0.2, 0.2])
 
     with col_selector:
-        selected_pollutant, mid_limit, high_limit = render_pollutant_selector(
+        selected_pollutant = render_pollutant_selector(
             thresholds_df
+        )
+        # Fetch latest readings per city from cache
+        map_data = get_cached_map_data(selected_pollutant)
+        mid_limit, high_limit = render_monitor_info(
+            selected_pollutant, thresholds_df, map_data
         )
 
     with col_info:
@@ -41,9 +46,6 @@ def main():
     # MAP
     # ==========================================
 
-    # Fetch latest readings per city from cache
-    map_data = get_cached_map_data(selected_pollutant)
-
     # Render map component
     map_event = render_map(map_data, selected_pollutant, mid_limit, high_limit)
 
@@ -52,7 +54,7 @@ def main():
     # ==========================================
 
     # Listen for map click events on city nodes to trigger a details modal
-    if map_event.selection.get("points"):
+    if map_event and map_event.selection and map_event.selection.get("points"):
         clicked_point = map_event.selection["points"][0]
         city_name = clicked_point["customdata"][3] # Assume city_name is on the 4th index
         render_city_modal(city_name, selected_pollutant)
