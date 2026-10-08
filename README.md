@@ -15,10 +15,10 @@ A mono-repo, city-based air quality dashboard built on an ETL & forecasting (Met
 # Application Preview:
 
 ### Main Page:
-![Main Page](images/main.png)
+![Main Page](images/main-v1.png)
 
 ### Modal:
-![Modal](images/modal.png)
+![Modal](images/modal-v1.png)
 
 # Prerequisites
 
