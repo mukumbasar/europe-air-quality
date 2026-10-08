@@ -10,7 +10,7 @@ A mono-repo, city-based air quality dashboard built on an ETL & forecasting (Met
 - Loads both processed air quality data and forecast air quality data into PostgreSQL database executed in Docker on a daily basis for each city in the scope.
 - Visualizes the output on a one-page Streamlit web application: Main page consists of an interactive map controlled by a selector with clickable markers that trigger a modal. The modal presents a 14-day forecast alongside historical data, with options to filter for the last 14 days, last month, last year or the entire historical record.
 
-> **Disclaimer:** This project is a portfolio piece and provided as is. Data is sourced from Open-Meteo and forecasts are not guaranteed.
+> **Disclaimer:** This project is a portfolio piece and provided as is. Air quality data by [Open-Meteo.com](https://open-meteo.com/), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), based on Copernicus Atmosphere Monitoring Service (CAMS) ENSEMBLE data. Hourly data is aggregated to daily values and 14-day forecasts are generated with Meta Prophet; these changes are not provided by Open-Meteo or CAMS. Forecasts are not guaranteed.
 
 # Application Preview:
 

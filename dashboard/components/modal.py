@@ -11,7 +11,6 @@ from dashboard.helpers import format_pollutant_name
 def render_city_modal(city: str, pollutant: str):
     """Renders a modal popup containing historical and forecast charts for a selected city."""
     st.header(f"{city}")
-    
     # Format the pollutant name using the helper function
     formatted_pollutant = format_pollutant_name(pollutant)
     st.caption(f"Analyzing pollutant metric: {formatted_pollutant}")
@@ -38,9 +37,10 @@ def render_city_modal(city: str, pollutant: str):
             xaxis_title="Date",
             yaxis_title="Value",
             margin=dict(l=20, r=20, t=40, b=20),
-            height=300
+            height=300,
         )
         st.plotly_chart(fig_forecast, use_container_width=True)
+        st.caption("Forecast generated using Meta Prophet on data from Open-Meteo.")
 
     # Visualize Processed/Historical Data if available
     if not processed_df.empty:
@@ -51,13 +51,11 @@ def render_city_modal(city: str, pollutant: str):
                 "Select range",
                 ["Last 14 Days", "Last 3 Months", "Last Year", "Entire Collected History"],
                 key=f"hist_range_{city}_{pollutant}",
-                label_visibility="collapsed"
+                label_visibility="collapsed",
             )
-        
         df_filtered = processed_df.copy()
         df_filtered["date"] = pd.to_datetime(df_filtered["date"])
         max_date = df_filtered["date"].max()
-        
         if time_range == "Last 14 Days":
             df_filtered = df_filtered[df_filtered["date"] >= max_date - pd.Timedelta(days=14)]
         elif time_range == "Last 3 Months":
@@ -74,6 +72,10 @@ def render_city_modal(city: str, pollutant: str):
             xaxis_title="Date",
             yaxis_title="Value",
             margin=dict(l=20, r=20, t=40, b=20),
-            height=300
+            height=300,
         )
         st.plotly_chart(fig_processed, use_container_width=True)
+        st.caption(
+            "Data by [Open-Meteo.com](https://open-meteo.com/) (CC BY 4.0), "
+            "based on Copernicus CAMS ENSEMBLE data. Hourly values aggregated to daily."
+        )

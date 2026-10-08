@@ -52,8 +52,13 @@ def render_map(
         zoom=3.4,
         center={"lat": 52.5, "lon": 20.0},
         map_style="carto-darkmatter",
-        title=f"Current {formatted_pollutant} Levels Across Europe{date_str}",
-    )
+        title=(
+            f"Current {formatted_pollutant} Levels Across Europe{date_str}"
+            "<br><sub>Air quality data by "
+            "<a href='https://open-meteo.com/' target='_blank'>Open-Meteo.com</a> "
+            "(CC BY 4.0), based on Copernicus CAMS ENSEMBLE data.</sub>"
+        ),
+)
 
     fig.update_traces(
         marker=dict(size=14, opacity=0.9),
