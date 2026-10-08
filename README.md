@@ -1,16 +1,24 @@
-A mono-repo city-based air quality monitoring and forecasting dashboard based on Open-Meteo data, which utilizes Streamlit for visualization.
+# Summary:
+
+A mono-repo, city-based air quality dashboard built on an ETL & forecasting (Meta Prophet) pipeline based on Open-Meteo data, utilizing Streamlit for visualization.
 
 # Pipeline:
-- Extracts 4-year hourly historical air quality data from Open-Meteo API for each city in the scope, going back from the point of execution.
+- Extracts 4-year hourly raw air quality data from Open-Meteo API for each city in the scope, going back from the point of execution.
 - Saves raw air quality data in parquet format locally. 
-- Transforms hourly data to daily data in accordance with the project objective, risk assessment paradigm of WHO and to reduce potential forecasting noise.
+- Transforms hourly raw data to daily processed data in accordance with the project objective, risk assessment paradigm of WHO and to reduce potential forecasting noise.
 - Forecasts 14-day air quality data on a daily basis for each city in the scope using Prophet by Meta.
-- Loads both processed air quality and forecast air quality data into PostgreSQL database executed in Docker on a daily basis for each city in the scope.
-- Visualizes the output on a one page Streamlit web application.
+- Loads both processed air quality data and forecast air quality data into PostgreSQL database executed in Docker on a daily basis for each city in the scope.
+- Visualizes the output on a one-page Streamlit web application: Main page consists of an interactive map controlled by a selector with clickable markers that trigger a modal. The modal presents a 14-day forecast alongside historical data, with options to filter for the last 14 days, last month, last year or the entire historical record.
 
 > **Disclaimer:** This project is a portfolio piece and provided as is. Data is sourced from Open-Meteo and forecasts are not guaranteed.
 
-#
+# Application Preview:
+
+### Main Page:
+![Main Page](images/main.png)
+
+### Modal:
+![Modal](images/modal.png)
 
 # Prerequisites
 
@@ -22,7 +30,7 @@ A mono-repo city-based air quality monitoring and forecasting dashboard based on
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/mukumbasar/europe-air-quality.git](https://github.com/mukumbasar/europe-air-quality.git)
+   git clone https://github.com/mukumbasar/europe-air-quality.git
    cd europe-air-quality
    ```
 
@@ -130,7 +138,7 @@ To stop containers, flush data, or exit your Python environment:
 
 # Frequently Asked Questions (FAQ)
 
-### Why Meta Prophet?
+- ### Why Meta Prophet?
 Prophet handles seasonality, missing data, and outliers natively out of the box; avoiding manual parameter tuning, complex feature engineering or heavy compute overhead.
 
 **Alternatives considered:** ARIMA/SARIMA, XGBoost/LightGBM, LSTM.
