@@ -53,7 +53,7 @@ def main():
     # MODAL
     # ==========================================
 
-    # Listen for map click events on city nodes to trigger a details modal
+    # Utilize map_event to trigger modal
     if map_event and map_event.selection and map_event.selection.get("points"):
         clicked_point = map_event.selection["points"][0]
         city_name = clicked_point["customdata"][3] # Assume city_name is on the 4th index

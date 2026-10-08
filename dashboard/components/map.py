@@ -32,8 +32,8 @@ def render_map(
         """
         <style>
         .block-container {
-            padding-top: 3.5rem !important;
-            padding-bottom: 0rem !important;
+            padding-top: 2.0rem !important;
+            padding-bottom: 1.5rem !important;
             max-width: 98% !important;
         }
         </style>
@@ -49,8 +49,8 @@ def render_map(
         custom_data=["status", "country", "value", "city"],
         color="status",
         color_discrete_map=COLOR_MAP,
-        zoom=3.2,
-        center={"lat": 48.5, "lon": 15.0},
+        zoom=3.4,
+        center={"lat": 52.5, "lon": 20.0},
         map_style="carto-darkmatter",
         title=f"Current {formatted_pollutant} Levels Across Europe{date_str}",
     )
