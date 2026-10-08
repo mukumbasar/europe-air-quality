@@ -100,12 +100,12 @@ COLOR_MAP = {
     "High Risk": "#FF5252"
 }
 
-BG_COLOR_PRIMARY = "#1C242F"
+BG_COLOR_PRIMARY = "#1B3A65"
 BG_COLOR_SECONDARY = "#18191C"
 
 APP_BACKGROUND = f"radial-gradient(circle at 10% 40%, {BG_COLOR_PRIMARY} 0%, {BG_COLOR_SECONDARY} 50%)"
 
-APP_TEXT_COLOR = "#F0F6FC"
+APP_TEXT_COLOR = "#F0F4FC"
 TITLE_COLOR = "#FFFFFF"
 
 FONT_IMPORT_URL = "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"

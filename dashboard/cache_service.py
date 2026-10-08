@@ -1,8 +1,7 @@
 # dashboard/cache_service.py
 
 import streamlit as st
-from db import get_engine, get_latest_map_data, get_pollutant_thresholds, get_forecast_air_quality
-from db.queries import get_processed_air_quality
+from db import get_engine, get_latest_map_data, get_pollutant_thresholds, get_forecast_air_quality, get_processed_air_quality
 
 
 @st.cache_resource
